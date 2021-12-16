@@ -1,4 +1,4 @@
 # SnakeAI
-Snake Game + AI to play it
+<h2> Snake Game + AI to play it </h2>
 
-Yes we are going to do that
+<i>Yes we are going to do that</i>
