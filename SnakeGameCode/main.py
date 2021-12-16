@@ -14,5 +14,6 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 break
-
+        #! Do not run or else it'll cause an infinite loop
+        
 # TODO: Switch Window Focus to newly created window
