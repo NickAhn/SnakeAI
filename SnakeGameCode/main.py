@@ -1,6 +1,4 @@
-from menu import *
-
-
+from mainGame import *
 
 # Window Creation
 if __name__ == "__main__":
