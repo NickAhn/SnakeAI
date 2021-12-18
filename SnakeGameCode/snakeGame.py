@@ -9,13 +9,68 @@ class Snake_Game:
         pygame.init()
         size = (width, height) = 800, 800
         self.window = pygame.display.set_mode(size)
-    def drawGrid(self):
+        self.snake = Snake(self.window, 5, 40)
+
+    def drawGrid(self): #function to create grid
         blockSize = 40 #Set the size of the grid block
-        for x in range(0, 800, blockSize):
+        for x in range(0, 800, blockSize): #starting from 0 to 800 increase by blockSize every iteration
             for y in range(0, 800, blockSize):
                 rect = pygame.Rect(x, y, blockSize, blockSize)
                 pygame.draw.rect(self.window, (200,200,200), rect, 1)
+    
+    def play(self):
+        self.snake.walk()
 
+class Snake:
+    def __init__(self, window, length, blockSize):
+        self.length = length
+        self.Game_Screen = window
+        self.direction = 'right'
+        self.x = [40] * length
+        self.y = [40] * length
+        self.blockSize = blockSize
+
+    def move_left(self):
+        self.direction = 'left'
+
+    def move_right(self):
+        self.direction = 'right'
+
+    def move_up(self):
+        self.direction = 'up'
+
+    def move_down(self):
+        self.direction = 'down'
+
+    def Snake_Movement(self):
+        for i in range(self.length-1,0,-1):
+            self.x[i] = self.x[i-1]
+            self.y[i] = self.y[i-1]
+
+        # update head
+        if self.direction == 'left':
+            self.x[0] -= self.blockSize
+        if self.direction == 'right':
+            self.x[0] += self.blockSize
+        if self.direction == 'up':
+            self.y[0] -= self.blockSize
+        if self.direction == 'down':
+            self.y[0] += self.blockSize
+
+        self.draw()
+
+    def draw(self):
+        #self.Game_Screen.fill((110, 110, 5))
+
+        for i in range(self.length):
+            #self.Game_Screen.
+            self.Game_Screen.blit(self.image, (self.x[i], self.y[i]))
+        pygame.display.flip()
+
+    def increase_Snakelength(self):
+        self.length += 1
+        self.x.append(-1)
+        self.y.append(-1)
 
 if __name__ == "__main__":
     game = Snake_Game()
