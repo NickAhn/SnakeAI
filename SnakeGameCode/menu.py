@@ -14,6 +14,7 @@ class menu:
     button_Color_Clicked = (221, 231, 238)
     button_Color_Hover = (216, 210, 205)
     size = None
+    screen = None
     
     def __init__(self, fullscreen=False):
         pygame.init()
@@ -26,26 +27,26 @@ class menu:
             self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
         
         # menu.size = size
-        
+        self.screen = self.screen
         self.screen.fill(color=(255, 255, 255))
         
         play_button = Button(win=self.screen, x=WINDOW_WIDTH/2 - 50, y=WINDOW_HEIGHT-250, width=100, height=35,
                              text="Play without AI", 
-                             onClick=print("Clicked Play without AI"), #! Add Function to play game w/o AI
+                             onClick=lambda: print("Clicked Play without AI"), #! Add Function to play game w/o AI
                              inactiveColour=menu.button_Color_Inactive,
                              hoverColour=menu.button_Color_Hover,
                              pressedColour=menu.button_Color_Clicked)
         
         select_AI = Button(win=self.screen, x=WINDOW_WIDTH/2 - 50, y=WINDOW_HEIGHT -200, width=100, height=35,
                            text="Select AI", 
-                           onClick=print("Clicked Select AI"), #! Add Function Call to switch to AI switcher screen
+                           onClick=lambda: switchToPane(pane),
                            inactiveColour=menu.button_Color_Inactive,
                            hoverColour=menu.button_Color_Hover,
                            pressedColour=menu.button_Color_Clicked)
         
         play_AI = Button(win=self.screen, x=WINDOW_WIDTH/2 - 50, y=WINDOW_HEIGHT -150, width=100, height=35,
                          text="Play With AI", 
-                         onClick=print("Clicked Play with AI"), #! Add Funciton Call to switch to gameplay w AI
+                         onClick=lambda: print("Clicked Play with AI"), #! Add Funciton Call to switch to gameplay w AI
                          inactiveColour=menu.button_Color_Inactive,
                          hoverColour=menu.button_Color_Hover,
                          pressedColour=menu.button_Color_Clicked)
@@ -61,6 +62,7 @@ class menu:
         while run:
             events = pygame.event.get()
             for event in events:
+                print(f"Event: {event}")
                 if event.type == pygame.QUIT:
                     print("QUIT GAME ")
                     pygame.quit()
@@ -69,5 +71,6 @@ class menu:
                     
             pygame_widgets.update(events)
             pygame.display.update()
-            
-                  
+        
+    def testFunction(self):
+        print("What the hell is going on")
