@@ -71,8 +71,8 @@ class Snake:
     def move_down(self):
         self.direction = 'down'
 
-    def Snake_Movement(self):
-        for i in range(self.length-1,0,-1):
+    def Snake_Movement(self): 
+        for i in range(self.length-1,0,-1): #for loop that updates where the snake body part is at on screen
             self.x[i] = self.x[i-1]
             self.y[i] = self.y[i-1]
 
@@ -89,14 +89,12 @@ class Snake:
         self.draw()
 
     def draw(self):
-        #self.Game_Screen.fill((110, 110, 5))
-
-        for i in range(self.length):
-            self.Game_Screen.blit(self.image, (self.x[i], self.y[i]))
+        for i in range(self.length): #for loop for length of snake
+            self.Game_Screen.blit(self.image, (self.x[i], self.y[i])) #draws the image onto screen/grid
             print(i)
         pygame.display.flip()
 
-    def increase_Snakelength(self):
+    def increase_Snakelength(self): #this will be for when snake eats an apple
         self.length += 1
         self.x.append(-1)
         self.y.append(-1)
