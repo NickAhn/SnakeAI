@@ -5,6 +5,7 @@ from pygame import color
 from pygame.constants import FULLSCREEN, MOUSEBUTTONDOWN, SCRAP_SELECTION
 import pygame_widgets
 from pygame_widgets.button import Button, ButtonArray
+from snakeGame import Snake_Game, Snake
 import menu
 import time
 
@@ -15,11 +16,12 @@ class menu:
     button_Color_Hover = (216, 210, 205)
     size = None
     screen = None
-    
     def __init__(self, fullscreen=False):
         pygame.init()
         self.size = width, height = WINDOW_WIDTH, WINDOW_HEIGHT
-        
+
+        self.game = Snake_Game()
+
         self.screen = None
         if fullscreen == False:
             self.screen = pygame.display.set_mode(size=self.size)
@@ -32,7 +34,7 @@ class menu:
         
         play_button = Button(win=self.screen, x=WINDOW_WIDTH/2 - 50, y=WINDOW_HEIGHT-250, width=100, height=35,
                              text="Play without AI", 
-                             onClick=lambda: print("Clicked Play without AI"), #! Add Function to play game w/o AI
+                             onClick=lambda: self.game.Run_Game() ,#print("Clicked Play without AI"), #! Add Function to play game w/o AI
                              inactiveColour=menu.button_Color_Inactive,
                              hoverColour=menu.button_Color_Hover,
                              pressedColour=menu.button_Color_Clicked)

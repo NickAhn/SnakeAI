@@ -17,14 +17,28 @@ class Snake_Game:
             for y in range(0, 800, blockSize):
                 rect = pygame.Rect(x, y, blockSize, blockSize)
                 pygame.draw.rect(self.window, (200,200,200), rect, 1)
-    
+
+    def is_collision(self, x1, y1, x2, y2):
+        if x1 >= x2 and x1 < x2 + 40:
+            if y1 >= y2 and y1 < y2 + 40:
+                return True
+        return False
+
     def play(self):
         self.snake.Snake_Movement()
+
+        # if self.is_collision(self.snake.x[0], self.snake.y[0], self.apple.x, self.apple.y):
+        #     self.snake.increase_length()
+        #     self.apple.move()
+
+        for i in range(2, self.snake.length):
+            if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
+                raise "Collision Occured"
     
     def Run_Game(self):
-        game.drawGrid()
+        self.drawGrid()
 
-        while game.game_over == False:
+        while self.game_over == False:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
@@ -44,7 +58,7 @@ class Snake_Game:
                 elif event.type == QUIT:
                     game.game_over = True
             self.window.fill((0, 0, 0))
-            game.drawGrid()
+            self.drawGrid()
             self.play()
             time.sleep(.2)
             pygame.display.flip()
