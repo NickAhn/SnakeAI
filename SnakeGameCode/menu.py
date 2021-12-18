@@ -2,7 +2,7 @@ import os
 from typing import Text
 import pygame
 from pygame import color
-from pygame.constants import FULLSCREEN, SCRAP_SELECTION
+from pygame.constants import FULLSCREEN, MOUSEBUTTONDOWN, SCRAP_SELECTION
 import pygame_widgets
 from pygame_widgets.button import Button, ButtonArray
 import menu
@@ -39,7 +39,7 @@ class menu:
         
         select_AI = Button(win=self.screen, x=WINDOW_WIDTH/2 - 50, y=WINDOW_HEIGHT -200, width=100, height=35,
                            text="Select AI", 
-                           onClick=lambda: switchToPane(pane),
+                           onClick=lambda: self.testFunction(),
                            inactiveColour=menu.button_Color_Inactive,
                            hoverColour=menu.button_Color_Hover,
                            pressedColour=menu.button_Color_Clicked)
@@ -68,9 +68,6 @@ class menu:
                     pygame.quit()
                     run = False
                     quit()
-                    
+                # elif event.type == pygame.MOUSEBUTTONDOWN and 
             pygame_widgets.update(events)
             pygame.display.update()
-        
-    def testFunction(self):
-        print("What the hell is going on")

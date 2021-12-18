@@ -1,8 +1,6 @@
-#TODO this is where the code going for the game
+
 import pygame
 from pygame.locals import *
-
-
 class Snake_Game:
     def __init__(self) -> None:
         self.game_over = False
@@ -93,3 +91,4 @@ if __name__ == "__main__":
             elif event.type == QUIT:
                 game.game_over = True
         pygame.display.flip()
+
