@@ -27,11 +27,7 @@ class Snake_Game:
     def play(self):
         self.snake.Snake_Movement()
 
-        # if self.is_collision(self.snake.x[0], self.snake.y[0], self.apple.x, self.apple.y):
-        #     self.snake.increase_length()
-        #     self.apple.move()
-
-        for i in range(2, self.snake.length):
+        for i in range(1, self.snake.length):
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 raise "Collision Occured"
     
