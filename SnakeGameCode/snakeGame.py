@@ -1,5 +1,6 @@
 #TODO this is where the code going for the game
 import pygame
+import time
 from pygame.locals import *
 
 
@@ -10,6 +11,7 @@ class Snake_Game:
         size = (width, height) = 800, 800
         self.window = pygame.display.set_mode(size)
         self.snake = Snake(self.window, 5, 40)
+        self.snake.draw()
 
     def drawGrid(self): #function to create grid
         blockSize = 40 #Set the size of the grid block
@@ -19,11 +21,40 @@ class Snake_Game:
                 pygame.draw.rect(self.window, (200,200,200), rect, 1)
     
     def play(self):
-        self.snake.walk()
+        self.snake.Snake_Movement()
+    
+    def Run_Game(self):
+        game.drawGrid()
+
+        while game.game_over == False:
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        running = False
+                    if event.key == K_LEFT:
+                        print("left")
+                        self.snake.move_left()
+                    if event.key == K_RIGHT:
+                        print("right")
+                        self.snake.move_right()
+                    if event.key == K_UP:
+                        print("up")
+                        self.snake.move_up()
+                    if event.key == K_DOWN:
+                        print("down")
+                        self.snake.move_down()
+                elif event.type == QUIT:
+                    game.game_over = True
+            self.window.fill((0, 0, 0))
+            game.drawGrid()
+            self.play()
+            time.sleep(.2)
+            pygame.display.flip()
 
 class Snake:
     def __init__(self, window, length, blockSize):
         self.length = length
+        self.image = pygame.image.load("SnakeGameCode/pictures/block.jpg").convert()
         self.Game_Screen = window
         self.direction = 'right'
         self.x = [40] * length
@@ -63,8 +94,8 @@ class Snake:
         #self.Game_Screen.fill((110, 110, 5))
 
         for i in range(self.length):
-            #self.Game_Screen.
             self.Game_Screen.blit(self.image, (self.x[i], self.y[i]))
+            print(i)
         pygame.display.flip()
 
     def increase_Snakelength(self):
@@ -72,24 +103,7 @@ class Snake:
         self.x.append(-1)
         self.y.append(-1)
 
+
 if __name__ == "__main__":
     game = Snake_Game()
-    game.drawGrid()
-
-
-    while game.game_over == False:
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
-                if event.key == K_LEFT:
-                    print("left")
-                if event.key == K_RIGHT:
-                    print("right")
-                if event.key == K_UP:
-                    print("up")
-                if event.key == K_DOWN:
-                    print("down")
-            elif event.type == QUIT:
-                game.game_over = True
-        pygame.display.flip()
+    game.Run_Game()
