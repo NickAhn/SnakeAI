@@ -2,9 +2,11 @@
 import pygame
 import time
 from pygame.locals import *
+import random 
 class Snake_Game:
     def __init__(self) -> None:
         self.game_over = False
+        self.fruit_dict = {}
         pygame.init()
         size = (width, height) = 800, 800
         self.window = pygame.display.set_mode(size)
@@ -40,24 +42,48 @@ class Snake_Game:
                     if event.key == K_ESCAPE:
                         running = False
                     if event.key == K_LEFT:
-                        print("left")
+                        # print("left")
                         self.snake.move_left()
                     if event.key == K_RIGHT:
-                        print("right")
+                        # print("right")
                         self.snake.move_right()
                     if event.key == K_UP:
-                        print("up")
+                        # print("up")
                         self.snake.move_up()
                     if event.key == K_DOWN:
-                        print("down")
+                        # print("down")
                         self.snake.move_down()
                 elif event.type == QUIT:
                     game.game_over = True
             self.window.fill((0, 0, 0))
             self.drawGrid()
             self.play()
+            
+            self.addFruit()
+            self.drawFruit()
+            self.snakeCollisionWithFruit(self.snake.get_head_location())
+            
             time.sleep(.2)
             pygame.display.flip()
+            
+            
+    def addFruit(self):
+        random_int = random.randint(0, 800)
+        if random_int % 40 == 0: #! Change the modulus to alter random spawning rate
+            x_coord = random.randint(0,20) * 40
+            y_coord = random.randint(0,20) * 40
+            self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
+
+    def drawFruit(self):
+        for fruit in self.fruit_dict.values():
+            pygame.draw.rect(self.window, (255,0,0), fruit)
+    
+    def snakeCollisionWithFruit(self, snake_coords):
+        for fruit_coords in self.fruit_dict.keys():
+            if (fruit_coords[0] == snake_coords[0]) and (fruit_coords[1] == snake_coords[1]):
+                self.fruit_dict.pop((fruit_coords[0], fruit_coords[1]))
+                self.snake.increase_Snakelength()
+                break
 
 class Snake:
     def __init__(self, window, length, blockSize):
@@ -101,7 +127,7 @@ class Snake:
     def draw(self):
         for i in range(self.length): #for loop for length of snake
             self.Game_Screen.blit(self.image, (self.x[i], self.y[i])) #draws the image onto screen/grid
-            print(i)
+            # print(i)
         pygame.display.flip()
 
     def increase_Snakelength(self): #this will be for when snake eats an apple
@@ -109,6 +135,8 @@ class Snake:
         self.x.append(-1)
         self.y.append(-1)
 
+    def get_head_location(self):
+        return [self.x[0], self.y[0]] #returns snake's head location
 
 if __name__ == "__main__":
     game = Snake_Game()
