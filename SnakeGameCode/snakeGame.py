@@ -3,8 +3,10 @@ import pygame
 import time
 from pygame.locals import *
 import random 
+
 class Snake_Game:
     def __init__(self) -> None:
+        self.score = 0
         self.game_over = False
         self.fruit_dict = {}
         pygame.init()
@@ -31,7 +33,7 @@ class Snake_Game:
 
         for i in range(1, self.snake.length):
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
-                raise "Collision Occured"
+                raise "Collision Occurred"
     
     def Run_Game(self):
         self.drawGrid()
@@ -79,11 +81,19 @@ class Snake_Game:
             pygame.draw.rect(self.window, (255,0,0), fruit)
     
     def snakeCollisionWithFruit(self, snake_coords):
-        for fruit_coords in self.fruit_dict.keys():
-            if (fruit_coords[0] == snake_coords[0]) and (fruit_coords[1] == snake_coords[1]):
-                self.fruit_dict.pop((fruit_coords[0], fruit_coords[1]))
-                self.snake.increase_Snakelength()
-                break
+        try:
+            self.fruit_dict.pop((snake_coords[0], snake_coords[1]))
+            self.snake.increase_Snakelength()
+            self.score += 1
+            print(f"Score: {self.score}")
+        except:
+            pass
+            
+        # for fruit_coords in self.fruit_dict.keys():
+        #     if (fruit_coords[0] == snake_coords[0]) and (fruit_coords[1] == snake_coords[1]):
+        #         self.fruit_dict.pop((fruit_coords[0], fruit_coords[1]))
+        #         self.snake.increase_Snakelength()
+        #         break
 
 class Snake:
     def __init__(self, window, length, blockSize):
@@ -123,6 +133,9 @@ class Snake:
             self.y[0] += self.blockSize
 
         self.draw()
+        if self.x[0] < 0 or self.x[0] > 800 or self.y[0] < 0 or self.y[0] > 800:
+            #TODO add logic to deduct AI Score here
+            raise "Snake out of bounds"
 
     def draw(self):
         for i in range(self.length): #for loop for length of snake
