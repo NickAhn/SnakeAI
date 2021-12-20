@@ -1,13 +1,14 @@
 from Menu import *
 from SnakeGame import *
+import Constants
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 800, 800
+WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
 
 class MainGame:
     def __init__(self, width, height):
         # pygame.init()
         fullscreen = False
-        self.size = width, height = WINDOW_WIDTH, WINDOW_HEIGHT
+        self.size = width, height = Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT
         self.screen = None
         if fullscreen == False:
             self.screen = pygame.display.set_mode(size=self.size)

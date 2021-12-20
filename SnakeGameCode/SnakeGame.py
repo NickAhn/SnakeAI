@@ -3,6 +3,7 @@ import pygame
 import time
 from pygame.locals import *
 import random 
+import Constants
 
 class Snake_Game:
     def __init__(self) -> None:
@@ -10,7 +11,7 @@ class Snake_Game:
         self.game_over = False
         self.fruit_dict = {}
         pygame.init()
-        size = (width, height) = 800, 800
+        size = (width, height) = Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT
         self.window = pygame.display.set_mode(size)
         self.snake = Snake(self.window, 5, 40)
         self.snake.draw()

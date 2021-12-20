@@ -7,8 +7,9 @@ import pygame_widgets
 from pygame_widgets.button import Button, ButtonArray
 import Menu
 import time
+import Constants
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
+WINDOW_WIDTH, WINDOW_HEIGHT = Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT 
 class Menu:
     button_Color_Inactive = (221, 231, 238)
     button_Color_Clicked = (221, 231, 238)
