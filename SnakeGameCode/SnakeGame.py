@@ -16,8 +16,6 @@ class Snake_Game:
         self.snake = Snake(self.window, 5, 40)
         self.snake.draw()
         self.fruit_on_screen = False
-        
-        self.called_add_fruit_counter = 0
 
     def Display_Score(self):
         font = pygame.font.SysFont('comic sans', 30)
@@ -71,11 +69,10 @@ class Snake_Game:
                     
             self.boundary_check(self.snake.get_head_location())
             self.play()
+            self.snake_collision_with_fruit(self.snake.get_head_location())
             if self.fruit_on_screen == False:
                 self.add_fruit(self.snake.get_body_coordinates())
             self.draw_fruit()
-            self.snake_collision_with_fruit(self.snake.get_head_location())
-            
             time.sleep(.2)
             pygame.display.flip()
         
@@ -83,8 +80,6 @@ class Snake_Game:
         
             
     def add_fruit(self, body_coordinates): 
-        self.called_add_fruit_counter += 1
-        print(f"Called add_fruit {self.called_add_fruit_counter}")
         spawned_fruit = False
         while spawned_fruit == False:
             x_coord = random.randint(0,19) * 40
@@ -93,11 +88,9 @@ class Snake_Game:
             for segment in body_coordinates:
                 if (x_coord == segment[0] and y_coord == segment[1]):
                     flag = True
-                    print("\tTried to spawn on the snake")
                     break
             if flag == False:
                 self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
-                print(f"\tSpawned Fruit @ x={x_coord} y={y_coord}")
                 self.fruit_on_screen = True
                 break
                     
@@ -109,13 +102,9 @@ class Snake_Game:
     def snake_collision_with_fruit(self, snake_coords):
         try:
             self.fruit_dict.pop((snake_coords[0], snake_coords[1]))
-            print("\t ate fruit")
             self.snake.increase_Snakelength()
-            print("\t increased length")
             self.score += 1
-            # print(f"Score: {self.score}")
             self.fruit_on_screen = False
-            print("\t switched flag")
             
         except:
             pass
