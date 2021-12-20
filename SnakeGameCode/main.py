@@ -1,6 +1,6 @@
-from mainGame import *
+from MainGame import *
 
 # Window Creation
 if __name__ == "__main__":
-    mainGame(fullscreen=False)
+    MainGame(fullscreen=False)
     

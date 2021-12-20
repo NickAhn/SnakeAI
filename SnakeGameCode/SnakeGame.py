@@ -60,9 +60,10 @@ class Snake_Game:
                         # print("down")
                         self.snake.move_down()
                         snake_direction = 'D'
+
                 elif event.type == QUIT:
                     game.game_over = True
-
+                    
             self.boundary_check(self.snake.get_head_location())
             self.window.fill((0, 0, 0))
             self.drawGrid()

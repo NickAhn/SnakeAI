@@ -2,7 +2,7 @@ from Menu import *
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
 
-class mainGame:
+class MainGame:
     def __init__(self, width, height):
         # pygame.init()
         fullscreen = False
@@ -48,7 +48,7 @@ class mainGame:
     
             
 pygame.init()       
-test = mainGame(WINDOW_WIDTH, WINDOW_HEIGHT)
+test = MainGame(WINDOW_WIDTH, WINDOW_HEIGHT)
 while True:
     # print(test.state)
     test.state_manager()
