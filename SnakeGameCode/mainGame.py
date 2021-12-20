@@ -50,7 +50,7 @@ class mainGame:
 pygame.init()       
 test = mainGame(WINDOW_WIDTH, WINDOW_HEIGHT)
 while True:
-    print(test.state)
+    # print(test.state)
     test.state_manager()
-    pygame.display.updte
+    pygame.display.update()
         
