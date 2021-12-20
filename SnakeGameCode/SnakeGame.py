@@ -15,6 +15,7 @@ class Snake_Game:
         self.window = pygame.display.set_mode(size)
         self.snake = Snake(self.window, 5, 40)
         self.snake.draw()
+        self.fruit_on_screen = False
 
     def drawGrid(self): #function to create grid
         blockSize = 40 #Set the size of the grid block
@@ -37,8 +38,12 @@ class Snake_Game:
                 raise "Collision Occurred"
     
     def Run_Game(self):
-        self.drawGrid()
+# <<<<<<< Updated upstream:SnakeGameCode/SnakeGame.py
+#         self.drawGrid()
         snake_direction = 'R'
+# =======
+#         # self.drawGrid()
+# >>>>>>> Stashed changes:SnakeGameCode/snakeGame.py
 
         while self.game_over == False:
             for event in pygame.event.get():
@@ -66,11 +71,11 @@ class Snake_Game:
                     game.game_over = True
                     
             self.boundary_check(self.snake.get_head_location())
-            self.window.fill((0, 0, 0))
-            self.drawGrid()
+            # self.window.fill((0, 0, 0))
+            # self.drawGrid()
             self.play()
-            
-            self.add_fruit()
+            if self.fruit_on_screen == False:
+                self.add_fruit(self.snake.get_body_coordinates())
             self.draw_fruit()
             self.snake_collision_with_fruit(self.snake.get_head_location())
             
@@ -80,12 +85,30 @@ class Snake_Game:
         self.window.fill((255, 255, 255))
         
             
-    def add_fruit(self):
-        random_int = random.randint(0, 800)
-        if random_int % 40 == 0: #! Change the modulus to alter random spawning rate
+    def add_fruit(self, body_coordinates): 
+        # random_int = random.randint(0, 800)
+        # if random_int % 40 == 0: #! Change the modulus to alter random spawning rate
+        #     x_coord = random.randint(0,20) * 40
+        #     y_coord = random.randint(0,20) * 40
+        #     #TODO Check Body Coordinates HERE
+        #     if 
+        #     self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
+        spawned_fruit = False
+        while spawned_fruit == False:
             x_coord = random.randint(0,20) * 40
             y_coord = random.randint(0,20) * 40
-            self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
+            
+            flag = False
+            for segment in body_coordinates:
+                if (x_coord == segment[0] and y_coord == segment[1]):
+                    flag = True
+                    break
+            
+            if flag == False:
+                self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
+                self.fruit_on_screen = True
+                break
+                    
 
     def draw_fruit(self):
         for fruit in self.fruit_dict.values():
@@ -97,14 +120,9 @@ class Snake_Game:
             self.snake.increase_Snakelength()
             self.score += 1
             print(f"Score: {self.score}")
+            self.fruit_on_screen = False
         except:
             pass
-            
-        # for fruit_coords in self.fruit_dict.keys():
-        #     if (fruit_coords[0] == snake_coords[0]) and (fruit_coords[1] == snake_coords[1]):
-        #         self.fruit_dict.pop((fruit_coords[0], fruit_coords[1]))
-        #         self.snake.increase_Snakelength()
-        #         break
         
     def boundary_check(self, snake_coords):
         if snake_coords[0] < 0 or snake_coords[0] > 800 or snake_coords[1] < 0 or snake_coords[1] > 800:
@@ -119,6 +137,7 @@ class Snake:
         self.x = [40] * length
         self.y = [40] * length
         self.blockSize = blockSize
+        self.body_segment_coords = []
 
     def move_left(self):
         self.direction = 'left'
@@ -133,10 +152,14 @@ class Snake:
         self.direction = 'down'
 
     def Snake_Movement(self): 
+        self.body_segment_coords = []
         for i in range(self.length-1,0,-1): #for loop that updates where the snake body part is at on screen
+            last_body_part = pygame.Rect(self.x[i], self.y[i], 40, 40) # fills in last body segment 
+            pygame.draw.rect(self.Game_Screen, (0,0,0), last_body_part)
             self.x[i] = self.x[i-1]
             self.y[i] = self.y[i-1]
-
+            self.body_segment_coords.append((self.x[i], self.y[i]))
+        
         # update head
         if self.direction == 'left':
             self.x[0] -= self.blockSize
@@ -153,7 +176,6 @@ class Snake:
     def draw(self):
         for i in range(self.length): #for loop for length of snake
             self.Game_Screen.blit(self.image, (self.x[i], self.y[i])) #draws the image onto screen/grid
-            # print(i)
         pygame.display.flip()
 
     def increase_Snakelength(self): #this will be for when snake eats an apple
@@ -163,6 +185,9 @@ class Snake:
 
     def get_head_location(self):
         return [self.x[0], self.y[0]] #returns snake's head location
+    
+    def get_body_coordinates(self):
+        return self.body_segment_coords
 
 if __name__ == "__main__":
     game = Snake_Game()
