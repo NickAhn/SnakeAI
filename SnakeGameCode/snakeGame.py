@@ -57,30 +57,33 @@ class Snake_Game:
                         self.snake.move_down()
                 elif event.type == QUIT:
                     game.game_over = True
+            self.boundary_check(self.snake.get_head_location())
             self.window.fill((0, 0, 0))
             self.drawGrid()
             self.play()
             
-            self.addFruit()
-            self.drawFruit()
-            self.snakeCollisionWithFruit(self.snake.get_head_location())
+            self.add_fruit()
+            self.draw_fruit()
+            self.snake_collision_with_fruit(self.snake.get_head_location())
             
             time.sleep(.2)
             pygame.display.flip()
+        
+        self.window.fill((255, 255, 255))
+        
             
-            
-    def addFruit(self):
+    def add_fruit(self):
         random_int = random.randint(0, 800)
         if random_int % 40 == 0: #! Change the modulus to alter random spawning rate
             x_coord = random.randint(0,20) * 40
             y_coord = random.randint(0,20) * 40
             self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
 
-    def drawFruit(self):
+    def draw_fruit(self):
         for fruit in self.fruit_dict.values():
             pygame.draw.rect(self.window, (255,0,0), fruit)
     
-    def snakeCollisionWithFruit(self, snake_coords):
+    def snake_collision_with_fruit(self, snake_coords):
         try:
             self.fruit_dict.pop((snake_coords[0], snake_coords[1]))
             self.snake.increase_Snakelength()
@@ -94,6 +97,10 @@ class Snake_Game:
         #         self.fruit_dict.pop((fruit_coords[0], fruit_coords[1]))
         #         self.snake.increase_Snakelength()
         #         break
+        
+    def boundary_check(self, snake_coords):
+        if snake_coords[0] < 0 or snake_coords[0] > 800 or snake_coords[1] < 0 or snake_coords[1] > 800:
+            self.game_over = True
 
 class Snake:
     def __init__(self, window, length, blockSize):
@@ -133,9 +140,7 @@ class Snake:
             self.y[0] += self.blockSize
 
         self.draw()
-        if self.x[0] < 0 or self.x[0] > 800 or self.y[0] < 0 or self.y[0] > 800:
-            #TODO add logic to deduct AI Score here
-            raise "Snake out of bounds"
+        
 
     def draw(self):
         for i in range(self.length): #for loop for length of snake
