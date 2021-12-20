@@ -19,6 +19,13 @@ class Snake_Game:
         
         self.called_add_fruit_counter = 0
 
+    def Display_Score(self):
+        font = pygame.font.SysFont('comic sans', 30)
+        score = font.render(f"Score: {self.score}", True, (200,200,200))
+        self.window.fill((0,0,0))
+        self.window.blit(score,(650,10))
+
+
     def drawGrid(self): #function to create grid
         blockSize = 40 #Set the size of the grid block
         for x in range(0, 800, blockSize): #starting from 0 to 800 increase by blockSize every iteration
@@ -34,14 +41,13 @@ class Snake_Game:
 
     def play(self):
         self.snake.Snake_Movement()
-
+        self.Display_Score()
         for i in range(1, self.snake.length):
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 raise "Collision Occurred"
     
     def Run_Game(self):
         snake_direction = 'R'
-
         while self.game_over == False:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
@@ -73,7 +79,7 @@ class Snake_Game:
             time.sleep(.2)
             pygame.display.flip()
         
-        self.window.fill((255, 255, 255))
+        self.window.fill((0, 0, 0))
         
             
     def add_fruit(self, body_coordinates): 
@@ -115,7 +121,7 @@ class Snake_Game:
             pass
         
     def boundary_check(self, snake_coords):
-        if snake_coords[0] <= 0 or snake_coords[0] >= 800 or snake_coords[1] <= 0 or snake_coords[1] >= 800:
+        if snake_coords[0] < 0 or snake_coords[0] >= 800 or snake_coords[1] < 0 or snake_coords[1] >= 800:
             self.game_over = True
 
 class Snake:
