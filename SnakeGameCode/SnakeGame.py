@@ -38,12 +38,7 @@ class Snake_Game:
                 raise "Collision Occurred"
     
     def Run_Game(self):
-# <<<<<<< Updated upstream:SnakeGameCode/SnakeGame.py
-#         self.drawGrid()
         snake_direction = 'R'
-# =======
-#         # self.drawGrid()
-# >>>>>>> Stashed changes:SnakeGameCode/snakeGame.py
 
         while self.game_over == False:
             for event in pygame.event.get():
@@ -51,19 +46,15 @@ class Snake_Game:
                     if event.key == K_ESCAPE:
                         running = False
                     if event.key == K_LEFT and snake_direction != 'R':
-                        # print("left")
                         self.snake.move_left()
                         snake_direction = 'L'
                     if event.key == K_RIGHT and snake_direction != 'L':
-                        # print("right")
                         self.snake.move_right()
                         snake_direction = 'R'
                     if event.key == K_UP and snake_direction != "D":
-                        # print("up")
                         self.snake.move_up()
                         snake_direction = 'U'
                     if event.key == K_DOWN and snake_direction != 'U':
-                        # print("down")
                         self.snake.move_down()
                         snake_direction = 'D'
 
@@ -71,8 +62,6 @@ class Snake_Game:
                     game.game_over = True
                     
             self.boundary_check(self.snake.get_head_location())
-            # self.window.fill((0, 0, 0))
-            # self.drawGrid()
             self.play()
             if self.fruit_on_screen == False:
                 self.add_fruit(self.snake.get_body_coordinates())
@@ -86,24 +75,15 @@ class Snake_Game:
         
             
     def add_fruit(self, body_coordinates): 
-        # random_int = random.randint(0, 800)
-        # if random_int % 40 == 0: #! Change the modulus to alter random spawning rate
-        #     x_coord = random.randint(0,20) * 40
-        #     y_coord = random.randint(0,20) * 40
-        #     #TODO Check Body Coordinates HERE
-        #     if 
-        #     self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
         spawned_fruit = False
         while spawned_fruit == False:
             x_coord = random.randint(0,20) * 40
             y_coord = random.randint(0,20) * 40
-            
             flag = False
             for segment in body_coordinates:
                 if (x_coord == segment[0] and y_coord == segment[1]):
                     flag = True
                     break
-            
             if flag == False:
                 self.fruit_dict[(x_coord, y_coord)] = pygame.Rect(x_coord, y_coord, 40, 40)
                 self.fruit_on_screen = True
