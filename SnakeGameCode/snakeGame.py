@@ -37,26 +37,32 @@ class Snake_Game:
     
     def Run_Game(self):
         self.drawGrid()
+        snake_direction = 'R'
 
         while self.game_over == False:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
-                    if event.key == K_LEFT:
+                    if event.key == K_LEFT and snake_direction != 'R':
                         # print("left")
                         self.snake.move_left()
-                    if event.key == K_RIGHT:
+                        snake_direction = 'L'
+                    if event.key == K_RIGHT and snake_direction != 'L':
                         # print("right")
                         self.snake.move_right()
-                    if event.key == K_UP:
+                        snake_direction = 'R'
+                    if event.key == K_UP and snake_direction != "D":
                         # print("up")
                         self.snake.move_up()
-                    if event.key == K_DOWN:
+                        snake_direction = 'U'
+                    if event.key == K_DOWN and snake_direction != 'U':
                         # print("down")
                         self.snake.move_down()
+                        snake_direction = 'D'
                 elif event.type == QUIT:
                     game.game_over = True
+
             self.boundary_check(self.snake.get_head_location())
             self.window.fill((0, 0, 0))
             self.drawGrid()
