@@ -1,6 +1,7 @@
 from Menu import *
+from SnakeGame import *
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
+WINDOW_WIDTH, WINDOW_HEIGHT = 800, 800
 
 class MainGame:
     def __init__(self, width, height):
@@ -16,7 +17,7 @@ class MainGame:
         self.state = 'menu_state'
             
         self.menu_screen = Menu(self)
-        # self.game_Screen = Snake_Game()
+        # self.game_screen = Snake_Game()
         
         self.state_manager()
         
@@ -29,21 +30,8 @@ class MainGame:
             self.game_state()
             
     def game_state(self):
-        #! this is a test
-        self.screen = self.screen
-        self.screen.fill(color=(255, 0, 0))
-        
-        events = pygame.event.get()
-        for event in events:
-            # print(f"Event: {event}")
-            if event.type == pygame.QUIT:
-                print("QUIT GAME ")
-                pygame.quit()
-                run = False
-                # sys.quit()
-                quit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                self.state = 'menu_state'
+        game = Snake_Game()
+        game.Run_Game()
             
     
             
