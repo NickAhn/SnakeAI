@@ -18,10 +18,9 @@ class Menu:
     screen = None
     
     def __init__(self, game, fullscreen=False):
-        # pygame.init()
         self.size = width, height = WINDOW_WIDTH, WINDOW_HEIGHT
         
-        self.game = game
+        self.game = game # instance of MainGame.py (used to change states in self.change_state())
         
         self.screen = None
         if fullscreen == False:
@@ -29,7 +28,6 @@ class Menu:
         else:
             self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
         
-        # menu.size = size
         self.screen = self.screen
         self.screen.fill(color=(255, 255, 255))
         
@@ -60,20 +58,6 @@ class Menu:
                              inactiveColour=Menu.button_Color_Inactive,
                              hoverColour=Menu.button_Color_Hover,
                              pressedColour=Menu.button_Color_Clicked)
-        
-        # run = True
-        # while run:
-            # events = pygame.event.get()
-            # for event in events:
-            #     print(f"Event: {event}")
-            #     if event.type == pygame.QUIT:
-            #         print("QUIT GAME ")
-            #         pygame.quit()
-            #         run = False
-            #         quit()
-            #     # elif event.type == pygame.MOUSEBUTTONDOWN and 
-            # pygame_widgets.update(events)
-            # pygame.display.update()
             
     def run(self):
         events = pygame.event.get()
@@ -88,6 +72,7 @@ class Menu:
         pygame_widgets.update(events)
         pygame.display.update()
         
+    #TODO: create change_state functions for different buttons in Menu
     def change_state(self):
         self.play_button.hide()
         self.play_AI.hide()

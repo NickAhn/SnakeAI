@@ -2,24 +2,16 @@ from Menu import *
 from SnakeGame import *
 import Constants
 
-WINDOW_WIDTH, WINDOW_HEIGHT = 480, 480
 
 class MainGame:
     def __init__(self, width, height):
         # pygame.init()
-        fullscreen = False
         self.size = width, height = Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT
-        self.screen = None
-        if fullscreen == False:
-            self.screen = pygame.display.set_mode(size=self.size)
-        else:
-            self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-            
+        self.screen = pygame.display.set_mode(size=self.size)
+
         self.state = 'menu_state'
-            
-        self.menu_screen = Menu(self)
-        # self.game_screen = Snake_Game()
         
+        self.menu_screen = Menu(self)       
         self.state_manager()
         
     
@@ -35,7 +27,8 @@ class MainGame:
         game.Run_Game()
             
     
-            
+
+#! TESTING
 pygame.init()       
 test = MainGame(WINDOW_WIDTH, WINDOW_HEIGHT)
 while True:
