@@ -14,7 +14,7 @@ class Snake_Game:
         size = (width, height) = Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT
         self.window = pygame.display.set_mode(size)
         self.snake = Snake(self.window, 5, 40)
-        self.snake.draw()
+        self.snake.draw_Snake()
         self.fruit_on_screen = False
 
     def Display_Score(self):
@@ -40,43 +40,74 @@ class Snake_Game:
     def play(self):
         self.snake.Snake_Movement()
         self.Display_Score()
+        self.boundary_check(self.snake.get_head_location())
+        self.snake_collision_with_fruit(self.snake.get_head_location())
+        if self.fruit_on_screen == False:
+            self.add_fruit(self.snake.get_body_coordinates())
+        self.draw_fruit()
+
+        if self.fruit_on_screen == False:
+            self.add_fruit(self.snake.get_body_coordinates())
+        self.draw_fruit()
         for i in range(1, self.snake.length):
             if self.is_collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
+                print("Collsion")
                 raise "Collision Occurred"
-    
+
+    def Losing_Screen(self): #screen for when player loses
+        pygame.display.flip()
+        self.window.fill((0,0,0))
+        font = pygame.font.SysFont('comic sans', 20)
+        score_line = font.render(f"Game is over! Your score is {self.score}", True, (200,200,200))
+        self.window.blit(score_line, (100,300))
+        option_line = font.render(f"To leave game, press Esc. To play again, press Enter!", True, (200,200,200))
+        self.window.blit(option_line, (100,500))
+        pygame.display.flip()
+
+    def Reset_Game(self): #fills the board reset score and snake
+        self.window.fill((0,0,0))
+        self.score = 0
+        self.snake = Snake(self.window, 5, 40)
+
     def Run_Game(self):
         snake_direction = 'R'
+        Pause_Game = False
         while self.game_over == False:
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        running = False
-                    if event.key == K_LEFT and snake_direction != 'R':
-                        self.snake.move_left()
-                        snake_direction = 'L'
-                    if event.key == K_RIGHT and snake_direction != 'L':
-                        self.snake.move_right()
-                        snake_direction = 'R'
-                    if event.key == K_UP and snake_direction != "D":
-                        self.snake.move_up()
-                        snake_direction = 'U'
-                    if event.key == K_DOWN and snake_direction != 'U':
-                        self.snake.move_down()
-                        snake_direction = 'D'
+                    if event.key == K_ESCAPE: #if esc is hit, then game quits
+                        self.game_over = True
+                    if event.key == K_RETURN: #stops the "pause" so game plays again
+                        Pause_Game = False
+
+                    if not Pause_Game:
+                        if event.key == K_LEFT and snake_direction != 'R':
+                            self.snake.move_left()
+                            snake_direction = 'L'
+                        if event.key == K_RIGHT and snake_direction != 'L':
+                            self.snake.move_right()
+                            snake_direction = 'R'
+                        if event.key == K_UP and snake_direction != "D":
+                            self.snake.move_up()
+                            snake_direction = 'U'
+                        if event.key == K_DOWN and snake_direction != 'U':
+                            self.snake.move_down()
+                            snake_direction = 'D'
 
                 elif event.type == QUIT:
-                    game.game_over = True
-                    
-            self.boundary_check(self.snake.get_head_location())
-            self.play()
-            self.snake_collision_with_fruit(self.snake.get_head_location())
-            if self.fruit_on_screen == False:
-                self.add_fruit(self.snake.get_body_coordinates())
-            self.draw_fruit()
-            time.sleep(.2)
-            pygame.display.flip()
-        
-        self.window.fill((0, 0, 0))
+                    self.game_over = True
+
+
+            try: #this so that we can handle the collsion exception in our way instead of having the game close
+                if not Pause_Game:
+                    self.play()
+            except Exception: #when an exception that occurs (which should be collision) then stop the game so it won't fill the screen through the while loop and display the losing screen
+                self.Losing_Screen()
+                Pause_Game = True
+                self.Reset_Game()
+
+            time.sleep(.25)
+
         
             
     def add_fruit(self, body_coordinates): 
@@ -110,8 +141,9 @@ class Snake_Game:
             pass
         
     def boundary_check(self, snake_coords):
-        if snake_coords[0] < 0 or snake_coords[0] >= 800 or snake_coords[1] < 0 or snake_coords[1] >= 800:
-            self.game_over = True
+        if snake_coords[0] < 0 or snake_coords[0] > 800 or snake_coords[1] < 0 or snake_coords[1] > 800:
+            print("Collsion")
+            raise "Collision Occurred"
 
 class Snake:
     def __init__(self, window, length, blockSize):
@@ -155,10 +187,10 @@ class Snake:
         if self.direction == 'down':
             self.y[0] += self.blockSize
 
-        self.draw()
+        self.draw_Snake()
         
 
-    def draw(self):
+    def draw_Snake(self):
         for i in range(self.length): #for loop for length of snake
             self.Game_Screen.blit(self.image, (self.x[i], self.y[i])) #draws the image onto screen/grid
         pygame.display.flip()
